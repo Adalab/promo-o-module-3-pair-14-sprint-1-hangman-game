@@ -1,6 +1,14 @@
 import '../styles/App.scss';
+import { useState } from 'react';
 
 function App() {
+  const [numberOfErrors, setError] = useState(0);
+
+  const handleClick = () => {
+    setError(numberOfErrors + 1);
+    // console.log(numberOfErrors);
+  };
+
   return (
     <div>
       <div className="page">
@@ -34,6 +42,8 @@ function App() {
                 <li className="letter">x</li>
               </ul>
             </div>
+
+            <button onClick={handleClick}>Incrementar</button>
             <form className="form">
               <label className="title" htmlFor="last-letter">
                 Escribe una letra:
@@ -48,7 +58,8 @@ function App() {
               />
             </form>
           </section>
-          <section className="dummy error-5">
+
+          <section className={`dummy error-${numberOfErrors}`}>
             <span className="error-13 eye"></span>
             <span className="error-12 eye"></span>
             <span className="error-11 line"></span>
