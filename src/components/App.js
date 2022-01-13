@@ -3,6 +3,20 @@ import { useState } from 'react';
 
 function App() {
   const [numberOfErrors, setError] = useState(0);
+  const [lastLetter, setLastLetter] = useState(''); //--------
+
+  const handleLastLetter = (e) => {
+    console.log('click');
+    const spanishPattern = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü]{1}$/;
+    const lastLetterValue = e.target.value; //---------
+
+    // if( ) si la letra que meto es una de las indicadas entonces
+    if (lastLetterValue) {
+      setLastLetter(lastLetterValue); //--------------------
+    } else {
+      setLastLetter('');
+    }
+  };
 
   const handleClick = () => {
     setError(numberOfErrors + 1);
@@ -55,6 +69,9 @@ function App() {
                 type="text"
                 name="last-letter"
                 id="last-letter"
+                //pattern={spanishPattern}
+                value={lastLetter}
+                onChange={handleLastLetter}
               />
             </form>
           </section>
