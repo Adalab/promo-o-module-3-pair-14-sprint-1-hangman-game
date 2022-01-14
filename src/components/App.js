@@ -53,7 +53,7 @@ function App() {
                 <li className="letter">k</li>
                 <li className="letter">e</li>
                 <li className="letter">r</li>
-  </ul>*/}
+                </ul>*/}
             </div>
             <div className="error">
               <h2 className="title">Letras falladas:</h2>
