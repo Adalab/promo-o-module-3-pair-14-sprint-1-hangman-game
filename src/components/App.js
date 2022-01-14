@@ -3,24 +3,21 @@ import { useState } from 'react';
 
 function App() {
   const [numberOfErrors, setError] = useState(0);
-  const [lastLetter, setLastLetter] = useState(''); //--------
+  const [lastLetter, setLastLetter] = useState('');
+  // const [word, setWord] = useState('katacroker');----
 
   const handleLastLetter = (e) => {
-    console.log('click');
-    const spanishPattern = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü]{1}$/;
-    const lastLetterValue = e.target.value; //---------
-
-    // if( ) si la letra que meto es una de las indicadas entonces
-    if (lastLetterValue) {
-      setLastLetter(lastLetterValue); //--------------------
-    } else {
-      setLastLetter('');
+    const lastLetterValue = e.target.value;
+    // si la letra que meto es una de las indicadas entonces cambias el estado
+    ///^[A-Za-zÑñÁáÉéÍíÓóÚúÜü]+$/
+    const regExp = /[A-Za-zÑñÁáÉéÍíÓóÚúÜü\b]+/gi;
+    if (lastLetterValue.match(regExp)) {
+      setLastLetter(lastLetterValue);
     }
   };
 
   const handleClick = () => {
     setError(numberOfErrors + 1);
-    // console.log(numberOfErrors);
   };
 
   return (
@@ -33,6 +30,7 @@ function App() {
           <section>
             <div className="solution">
               <h2 className="title">Solución:</h2>
+
               <ul className="letters">
                 <li className="letter">k</li>
                 <li className="letter">a</li>
@@ -57,7 +55,6 @@ function App() {
               </ul>
             </div>
 
-            <button onClick={handleClick}>Incrementar</button>
             <form className="form">
               <label className="title" htmlFor="last-letter">
                 Escribe una letra:
@@ -69,7 +66,6 @@ function App() {
                 type="text"
                 name="last-letter"
                 id="last-letter"
-                //pattern={spanishPattern}
                 value={lastLetter}
                 onChange={handleLastLetter}
               />
@@ -77,6 +73,7 @@ function App() {
           </section>
 
           <section className={`dummy error-${numberOfErrors}`}>
+            <button onClick={handleClick}>Incrementar</button>
             <span className="error-13 eye"></span>
             <span className="error-12 eye"></span>
             <span className="error-11 line"></span>
