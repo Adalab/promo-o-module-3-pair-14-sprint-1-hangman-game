@@ -1,17 +1,15 @@
-import "../styles/App.scss";
-import { useState } from "react";
+import '../styles/App.scss';
+import { useState } from 'react';
 
 function App() {
   const [numberOfErrors, setError] = useState(0);
-  const [lastLetter, setLastLetter] = useState("");
-  const [word, setWord] = useState("katakroker");
+  const [lastLetter, setLastLetter] = useState('');
+  const [word, setWord] = useState('katakroker');
 
   const handleLastLetter = (e) => {
     const lastLetterValue = e.target.value;
     // si la letra que meto es una de las indicadas entonces cambias el estado
-    ///^[A-Za-zÑñÁáÉéÍíÓóÚúÜü]+$/
-    const regExp = /[A-Za-zÑñÁáÉéÍíÓóÚúÜü]+/gi;
-    if (lastLetterValue.match(regExp)) {
+    if (lastLetterValue.match('^[A-Za-zÑñÁáÉéÍíÓóÚúÜü]?$')) {
       setLastLetter(lastLetterValue);
     }
   };
@@ -21,7 +19,7 @@ function App() {
   };
 
   const renderSolutionLetters = () => {
-    const wordLetters = word.split("");
+    const wordLetters = word.split('');
     wordLetters.map((letter, index) => {
       return (
         <ul key={index} className="letters">
