@@ -5,15 +5,14 @@ function App() {
   const [numberOfErrors, setError] = useState(0);
   const [lastLetter, setLastLetter] = useState("");
   const [word, setWord] = useState("katakroker");
+  const [userLetters, setUserLetters] = useState([]);
 
   const handleLastLetter = (e) => {
     const lastLetterValue = e.target.value;
-    // si la letra que meto es una de las indicadas entonces cambias el estado
-    ///^[A-Za-zÑñÁáÉéÍíÓóÚúÜü]+$/
-    const regExp = /[A-Za-zÑñÁáÉéÍíÓóÚúÜü]+/gi;
-    if (lastLetterValue.match(regExp)) {
+    if (lastLetterValue.match("^[A-Za-zÑñÁáÉéÍíÓóÚúÜü]?$")) {
       setLastLetter(lastLetterValue);
     }
+    setUserLetters([...userLetters, lastLetterValue]);
   };
 
   const handleClick = () => {
@@ -22,12 +21,17 @@ function App() {
 
   const renderSolutionLetters = () => {
     const wordLetters = word.split("");
-    wordLetters.map((letter, index) => {
-      return (
-        <ul key={index} className="letters">
-          <li class="letter"></li>
-        </ul>
-      );
+
+    return wordLetters.map((letter, index) => {
+      if (letter.includes(userLetters)) {
+        return (
+          <li key={index} className="letter">
+            {letter}
+          </li>
+        );
+      } else {
+        return <li key={index} className="letter"></li>;
+      }
     });
   };
 
@@ -41,9 +45,9 @@ function App() {
           <section>
             <div className="solution">
               <h2 className="title">Solución:</h2>
-              {renderSolutionLetters()}
-              {/*<ul className="letters">
-                <li className="letter">k</li>
+              <ul className="letters">
+                {renderSolutionLetters()}
+                {/*<li className="letter">k</li>
                 <li className="letter">a</li>
                 <li className="letter"></li>
                 <li className="letter">a</li>
@@ -52,8 +56,8 @@ function App() {
                 <li className="letter"></li>
                 <li className="letter">k</li>
                 <li className="letter">e</li>
-                <li className="letter">r</li>
-                </ul>*/}
+  <li className="letter">r</li>*/}
+              </ul>
             </div>
             <div className="error">
               <h2 className="title">Letras falladas:</h2>
@@ -84,7 +88,10 @@ function App() {
           </section>
 
           <section className={`dummy error-${numberOfErrors}`}>
-            <button onClick={handleClick}>Incrementar</button>
+            {" "}
+            {/* se pinta una línea por cada error */}
+            <button onClick={handleClick}>Incrementar</button>{" "}
+            {/* Boton para incrementar el número de errores. Ponemos evento para escuchar cuándo se hace click */}
             <span className="error-13 eye"></span>
             <span className="error-12 eye"></span>
             <span className="error-11 line"></span>
