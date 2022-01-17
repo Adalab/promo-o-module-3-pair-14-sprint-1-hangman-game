@@ -1,10 +1,17 @@
 import '../styles/App.scss';
 import { useState } from 'react';
 
+//1. Pintar los guiones de la solución (fase 1)
+//2. Modificar un array del estado
+//3. Pintar los guiones de la solución (fase 2)
+//4. Pintar las letras falladas
+//5. Pintar el muñeco
 function App() {
+  //Estados
   const [numberOfErrors, setError] = useState(0);
   const [lastLetter, setLastLetter] = useState('');
   const [word, setWord] = useState('katakroker');
+  const [userLetters, setUserLetters] = useState([]);
 
   const handleLastLetter = (e) => {
     const lastLetterValue = e.target.value;
@@ -12,6 +19,7 @@ function App() {
     if (lastLetterValue.match('^[A-Za-zÑñÁáÉéÍíÓóÚúÜü]?$')) {
       setLastLetter(lastLetterValue);
     }
+    setUserLetters([...userLetters, lastLetterValue]); //----- mirar devtools ""
   };
 
   const handleClick = () => {
@@ -20,11 +28,29 @@ function App() {
 
   const renderSolutionLetters = () => {
     const wordLetters = word.split('');
-    wordLetters.map((letter, index) => {
+    return wordLetters.map((letter, index) => {
+      //si la letra no está en userLetters --->  li vacío
+      //si la letra sí está en userLetters --->  li con esa letra
       return (
-        <ul key={index} className="letters">
-          <li class="letter"></li>
-        </ul>
+        <li key={index} className="letter">
+          {userLetters.includes(letter) ? letter : ''}
+        </li>
+      );
+    });
+  };
+
+  const renderErrorLetters = () => {
+    const wordLetters = word.split('');
+    const errorLetter = userLetters.filter(
+      (eachLetter) => !eachLetter.includes(wordLetters)
+    );
+    console.log(errorLetter);
+
+    errorLetter.map((letter, index) => {
+      return (
+        <li key={index} className="letter">
+          {letter}
+        </li>
       );
     });
   };
@@ -39,9 +65,10 @@ function App() {
           <section>
             <div className="solution">
               <h2 className="title">Solución:</h2>
-              {renderSolutionLetters()}
-              {/*<ul className="letters">
-                <li className="letter">k</li>
+
+              <ul className="letters">
+                {renderSolutionLetters()}
+                {/* <li className="letter">k</li>
                 <li className="letter">a</li>
                 <li className="letter"></li>
                 <li className="letter">a</li>
@@ -50,17 +77,18 @@ function App() {
                 <li className="letter"></li>
                 <li className="letter">k</li>
                 <li className="letter">e</li>
-                <li className="letter">r</li>
-                </ul>*/}
+                <li className="letter">r</li> */}
+              </ul>
             </div>
             <div className="error">
               <h2 className="title">Letras falladas:</h2>
               <ul className="letters">
-                <li className="letter">f</li>
+                {renderErrorLetters()}
+                {/* <li className="letter">f</li>
                 <li className="letter">q</li>
                 <li className="letter">h</li>
                 <li className="letter">p</li>
-                <li className="letter">x</li>
+                <li className="letter">x</li> */}
               </ul>
             </div>
 
