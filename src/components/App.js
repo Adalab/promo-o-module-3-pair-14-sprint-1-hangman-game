@@ -1,7 +1,13 @@
 import "../styles/App.scss";
 import { useState } from "react";
 
+//1. Pintar los guiones de la solución (fase 1)
+//2. Modificar un array del estado
+//3. Pintar los guiones de la solución (fase 2)
+//4. Pintar las letras falladas
+//5. Pintar el muñeco
 function App() {
+  //Estados
   const [numberOfErrors, setError] = useState(0);
   const [lastLetter, setLastLetter] = useState("");
   const [word, setWord] = useState("katakroker");
@@ -9,10 +15,11 @@ function App() {
 
   const handleLastLetter = (e) => {
     const lastLetterValue = e.target.value;
+    // si la letra que meto es una de las indicadas entonces cambias el estado
     if (lastLetterValue.match("^[A-Za-zÑñÁáÉéÍíÓóÚúÜü]?$")) {
       setLastLetter(lastLetterValue);
     }
-    setUserLetters([...userLetters, lastLetterValue]);
+    setUserLetters([...userLetters, lastLetterValue]); //----- mirar devtools ""
   };
 
   const handleClick = () => {
@@ -21,18 +28,32 @@ function App() {
 
   const renderSolutionLetters = () => {
     const wordLetters = word.split("");
-
     return wordLetters.map((letter, index) => {
-      if (letter.includes(userLetters)) {
-        return (
-          <li key={index} className="letter">
-            {letter}
-          </li>
-        );
-      } else {
-        return <li key={index} className="letter"></li>;
-      }
+      //si la letra no está en userLetters --->  li vacío
+      //si la letra sí está en userLetters --->  li con esa letra
+      return (
+        <li key={index} className="letter">
+          {userLetters.includes(letter) ? letter : ""}
+        </li>
+      );
     });
+  };
+
+  const renderErrorLetters = () => {
+    const wordLetters = word.split("");
+    const errorLetter = userLetters.filter(
+      (eachLetter) => !eachLetter.includes(wordLetters)
+    );
+
+    console.log(errorLetter);
+
+    /*errorLetter.map((letter, index) => {
+      return (
+        <li key={index} className="letter">
+          {letter}
+        </li>
+      );
+    });*/
   };
 
   return (
@@ -45,9 +66,10 @@ function App() {
           <section>
             <div className="solution">
               <h2 className="title">Solución:</h2>
+
               <ul className="letters">
                 {renderSolutionLetters()}
-                {/*<li className="letter">k</li>
+                {/* <li className="letter">k</li>
                 <li className="letter">a</li>
                 <li className="letter"></li>
                 <li className="letter">a</li>
@@ -56,17 +78,18 @@ function App() {
                 <li className="letter"></li>
                 <li className="letter">k</li>
                 <li className="letter">e</li>
-  <li className="letter">r</li>*/}
+                <li className="letter">r</li> */}
               </ul>
             </div>
             <div className="error">
               <h2 className="title">Letras falladas:</h2>
               <ul className="letters">
-                <li className="letter">f</li>
+                {renderErrorLetters()}
+                {/* <li className="letter">f</li>
                 <li className="letter">q</li>
                 <li className="letter">h</li>
                 <li className="letter">p</li>
-                <li className="letter">x</li>
+                <li className="letter">x</li> */}
               </ul>
             </div>
 
@@ -88,10 +111,7 @@ function App() {
           </section>
 
           <section className={`dummy error-${numberOfErrors}`}>
-            {" "}
-            {/* se pinta una línea por cada error */}
-            <button onClick={handleClick}>Incrementar</button>{" "}
-            {/* Boton para incrementar el número de errores. Ponemos evento para escuchar cuándo se hace click */}
+            <button onClick={handleClick}>Incrementar</button>
             <span className="error-13 eye"></span>
             <span className="error-12 eye"></span>
             <span className="error-11 line"></span>
